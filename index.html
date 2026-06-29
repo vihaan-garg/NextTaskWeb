@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextTask</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Arial;
+  background: #070a12;
+  color: white;
+}
+
+/* ===== BACKGROUND LAYERS ===== */
+.bg-glow {
+  position: fixed;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.glow1 { background: #4f8cff; top: -250px; left: -250px; }
+.glow2 { background: #9b5cff; bottom: -250px; right: -250px; }
+
+/* ===== STICKY HEADER ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(10, 12, 20, 0.55);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.brand img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.primary {
+  background: white;
+  color: black;
+}
+
+.secondary {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* ===== PAGE ===== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 20px 80px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.hero h1 {
+  font-size: 64px;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.hero p {
+  margin-top: 14px;
+  font-size: 20px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ===== ICON ROW ===== */
+.icon-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.icon-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ===== FEATURE CARDS ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.card svg {
+  opacity: 0.9;
+}
+
+/* ===== FEATURE BANNER ===== */
+.banner {
+  margin-top: 50px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* ===== SECTION LABEL ===== */
+.label {
+  margin-top: 80px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== CTA ===== */
+.cta {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  margin-top: 100px;
+  color: rgba(255,255,255,0.35);
+  font-size: 13px;
+}
+.feature-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 90px;
+}
+
+.feature-section.reverse {
+  direction: rtl;
+}
+
+.feature-section.reverse .feature-text {
+  direction: ltr;
+}
+
+.feature-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+
+.feature-text h2 {
+  font-size: 34px;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.feature-text p {
+  max-width: 520px;
+}
+
+.feature-image {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.feature-image img {
+  width: 100%;
+  border-radius: 16px;
+  display: block;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  transform: translateZ(0);
+}
+
+/* mobile responsiveness */
+@media (max-width: 800px) {
+  .feature-section {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-section.reverse {
+    direction: ltr;
+  }
+}
+
+.feature-section {
+  margin-top: 140px;
+}
+
+.banner {
+  margin-top: 70px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- background glow -->
+<div class="bg-glow glow1"></div>
+<div class="bg-glow glow2"></div>
+
+<!-- sticky nav -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="AppLogo.png" alt="logo">
+      NextTask
+    </div>
+
+    <div>
+      <a class="btn secondary" href="demo.html">Try Demo</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>NextTask</h1>
+    <p>Intelligent planning for students who want control over their workload.</p>
+
+    <div class="cta">
+      <a class="btn primary" href="https://apps.apple.com/us/app/nexttask-student-productivity/id6771211226">Download App Store</a>
+      <a class="btn secondary" href="demo.html">Explore Demo</a>
+    </div>
+
+    <!-- icon pills -->
+    <div class="icon-row">
+      <div class="icon-pill">📅 Smart Scheduling</div>
+      <div class="icon-pill">🧠 AI Prioritization</div>
+      <div class="icon-pill">📚 Canvas Sync</div>
+      <div class="icon-pill">⚡ Instant Planning</div>
+    </div>
+  </div>
+
+  <!-- FEATURE BANNER -->
+  <div class="banner">
+    <b>Built for students, designed for focus.</b>
+    <div style="margin-top:6px; color:rgba(255,255,255,0.7);">
+      NextTask turns scattered assignments into a clear daily execution plan.
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="label">FEATURES</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <!-- icon -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M4 7h16M4 12h16M4 17h10" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="card-title">Smart Task Ordering</div>
+    </div>
+
+    <div class="card">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M3 4h18v16H3z" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="card-title">Calendar Integration</div>
+    </div>
+
+    <div class="card">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2v20M2 12h20" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="card-title">Focus System</div>
+    </div>
+
+    <div class="card">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12l5 5L20 7" stroke="white" stroke-width="2"/>
+      </svg>
+      <div class="card-title">Task Completion Flow</div>
+    </div>
+
+  </div>
+
+  <!-- WHY -->
+  <div class="label">WHY NEXTTASK</div>
+
+  <div class="banner">
+    Designed to feel like a system, not an app.  
+    One place for everything you need to do today — nothing more, nothing less.
+  </div>
+
+  <div style="height:1px; background:rgba(255,255,255,0.06); margin-top:100px;"></div>
+
+  <!-- FEATURE SHOWCASE 1 -->
+<div class="feature-section">
+  <div class="feature-text">
+    <div class="feature-label">CALENDAR INTEGRATION</div>
+    <h2>Everything you need, visually organized.</h2>
+    <p>
+      NextTask syncs assignments into a unified calendar view so students can see exactly
+      what is due and when — without switching between platforms.
+    </p>
+  </div>
+
+  <div class="feature-image">
+    <img src="calendar.png" alt="Calendar Feature">
+  </div>
+</div>
+
+<div style="height:1px; background:rgba(255,255,255,0.06); margin-top:100px;"></div>
+
+<!-- FEATURE SHOWCASE 2 -->
+<div class="feature-section reverse">
+  <div class="feature-text">
+    <div class="feature-label">SMART TASK CREATION</div>
+    <h2>Intelligence built into every task.</h2>
+    <p>
+      When creating tasks, NextTask automatically estimates time, assigns priority,
+      and suggests scheduling based on workload and deadlines.
+    </p>
+  </div>
+
+  <div class="feature-image">
+    <img src="creation.png" alt="Task Creation">
+  </div>
+</div>
+
+<div style="height:1px; background:rgba(255,255,255,0.06); margin-top:100px;"></div>
+
+<!-- FEATURE SHOWCASE 3 (UPCOMING) -->
+<div class="feature-section">
+  <div class="feature-text">
+    <div class="feature-label">COMING SOON</div>
+    <h2>Full daily scheduling system.</h2>
+    <p>
+      Upcoming scheduling features will automatically build a full daily plan for students,
+      balancing workload, breaks, and free time intelligently.
+    </p>
+  </div>
+
+  <div class="feature-image">
+    <img src="schedule.png" alt="Upcoming Schedule Feature">
+  </div>
+</div>
+
+  <div class="footer">
+    © NextTask — Built for students, by a student
+  </div>
+
+</div>
+
+</body>
+</html>

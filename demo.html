@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NextTask Demo</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
+.phone{max-width:430px;margin:auto;padding:22px 18px 100px}
+.nav{text-align:center;font-weight:700;font-size:22px;margin:6px 0 24px}
+.header{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#6ea8ff,#8e7dff)}
+.small{color:#8f8f95;font-size:16px}
+.big{font-size:34px;font-weight:800}
+.card{background:#1c1c1e;border-radius:26px;padding:20px;margin-bottom:22px}
+.next h1{margin:0;font-size:40px}
+.muted{color:#9b9ba1}
+.row{display:flex;gap:12px}
+.mini{flex:1;background:#2a2a2d;border-radius:18px;padding:16px;text-align:center}
+.mini h3{margin:8px 0 4px;font-size:15px}
+.mini p{margin:0;color:#aaa;font-size:13px}
+.progress{height:10px;background:#303033;border-radius:99px;overflow:hidden;margin:16px 0}
+.fill{width:62%;height:100%;background:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{background:#2a2a2d;border-radius:18px;padding:18px;text-align:center}
+.metric b{display:block;font-size:28px}
+button{width:100%;padding:14px;border:none;border-radius:16px;font-size:16px;font-weight:700;margin-top:16px;cursor:pointer}
+.primary{background:#fff;color:#000}
+.secondary{background:#2a2a2d;color:#fff}
+.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;width:min(390px,92vw);background:#1c1c1e;border-radius:28px;padding:14px 0;display:flex;justify-content:space-around;color:#bbb}
+.active{color:#fff;font-weight:700}
+.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(12px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+    z-index:9999;
+}
+
+.popup-overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.popup{
+    width:min(360px,90%);
+    background:#1c1c1e;
+    border-radius:28px;
+    padding:30px 24px;
+    text-align:center;
+    transform:scale(.8) translateY(25px);
+    transition:.35s cubic-bezier(.2,.9,.2,1);
+    box-shadow:0 25px 70px rgba(0,0,0,.45);
+}
+
+.popup-overlay.show .popup{
+    transform:scale(1) translateY(0);
+}
+
+.popup-icon{
+    font-size:54px;
+    margin-bottom:14px;
+}
+
+.popup h2{
+    margin:0;
+    font-size:24px;
+}
+
+.popup p{
+    margin:14px 0 24px;
+    color:#a8a8ae;
+    line-height:1.5;
+    font-size:15px;
+}
+
+.popup-button{
+    width:100%;
+    border:none;
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.popup-button:hover{
+    transform:scale(.98);
+}
+.back-button{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    background:#1c1c1e;
+    color:white;
+
+    border:none;
+    border-radius:999px;
+
+    padding:10px 18px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+.back-button:hover{
+    transform:translateY(-2px);
+    background:#2c2c2e;
+}
+
+.back-button:active{
+    transform:scale(.97);
+}
+</style>
+</head>
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup">
+        <div class="popup-icon">📱</div>
+
+        <h2>Get the Full NextTask Experience</h2>
+
+        <p>
+            This interactive demo showcases the NextTask interface.
+            Download the full app to create tasks, manage schedules,
+            receive reminders, and access all features.
+        </p>
+
+        <button class="popup-button" onclick="closePopup()">
+            Continue Demo
+        </button>
+    </div>
+</div>
+<div class="phone">
+
+    <button class="back-button"
+        onclick="window.location.href='index.html'">
+        ← Return to Landing Page
+    </button>
+
+    <div class="header">
+<body>
+
+<div class="phone">
+<div class="nav">NextTask</div>
+
+<div class="header">
+<img src="AppLogo.png" class="logo" alt="NextTask Logo">
+<div>
+<div class="small">Welcome back</div>
+<div class="big">Here's your next task</div>
+</div>
+</div>
+
+<div class="card next">
+<h1 id="taskTitle">School</h1>
+<p class="muted">Due in 2h 30m • 45 min • Importance 9</p>
+<button class="primary" onclick="showPopup()">Open Task</button>
+<button class="secondary" onclick="complete()">Mark Complete</button>
+</div>
+
+<h2>Productivity</h2>
+<div class="row">
+<div class="mini" onclick="showPopup()"><h3>Preference</h3><p>Balanced</p></div>
+<div class="mini" onclick="showPopup()"><h3>Breaks</h3><p>15 min</p></div>
+<div class="mini" onclick="showPopup()"><h3>Reminders</h3><p>On</p></div>
+</div>
+
+<h2>Today's Summary</h2>
+<div class="card">
+<div class="muted">Progress</div>
+<div class="progress"><div class="fill" id="fill"></div></div>
+<div class="grid">
+<div class="metric" onclick="showPopup()"><b id="done">5</b>Done</div>
+<div class="metric" onclick="showPopup()"><b>3</b>Pending</div>
+<div class="metric" onclick="showPopup()"><b>240m</b>Total Time</div>
+<div class="metric" onclick="showPopup()"><b>6:00 PM</b>Next Due</div>
+</div>
+</div>
+
+</div>
+
+<div class="tabbar">
+<div class="active" onclick="showPopup()">🏠 Home</div>
+<div onclick="showPopup()">🗓️ Schedule</div>
+<div onclick="showPopup()">📅 Calendar</div>
+<div onclick="showPopup()">☰ Tasks</div>
+</div>
+
+<script>
+let completed = false;
+
+function showPopup(){
+    document
+        .getElementById("popupOverlay")
+        .classList.add("show");
+}
+
+function closePopup(){
+    document
+        .getElementById("popupOverlay")
+        .classList.remove("show");
+}
+
+function complete(){
+
+    if(!completed){
+        completed = true;
+
+        document.getElementById("taskTitle").textContent = "All Tasks Complete!";
+        document.getElementById("done").textContent = "6";
+        document.getElementById("fill").style.width = "100%";
+    }
+
+    showPopup();
+}
+</script>
+</body>
+</html>
