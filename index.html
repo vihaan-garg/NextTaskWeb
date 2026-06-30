@@ -253,6 +253,44 @@ body {
 .banner {
   margin-top: 70px;
 }
+.contact-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.contact-form button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.contact-form button:hover {
+  opacity: 0.85;
+}
 </style>
 </head>
 
@@ -417,6 +455,17 @@ body {
 
   <div class="feature-image">
     <img src="redesign.png" alt="Upcoming Redesign">
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="label">CONTACT</div>
+
+<div class="banner">
+  <b>Have a question?</b>
+  <div style="margin-top:6px; color:rgba(255,255,255,0.7);">
+    Reach out at <a href="mailto:vihaan.garg@creativeana.net" style="color:white; text-decoration:underline;">
+    vihaan.garg@creativeana.net</a>
   </div>
 </div>
 
