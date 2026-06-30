@@ -202,32 +202,96 @@ button{width:100%;padding:14px;border:none;border-radius:16px;font-size:16px;fon
 </div>
 
 <script>
-let completed = false;
+let tasks = [
+  { title: "Math Homework", due: "2h 30m", time: 45, importance: 9, done: false },
+  { title: "APUSH Reading", due: "5h", time: 30, importance: 7, done: false },
+  { title: "Robotics Log", due: "Tomorrow", time: 20, importance: 8, done: false },
+  { title: "CS Practice", due: "Tomorrow", time: 40, importance: 8, done: false }
+];
 
-function showPopup(){
-    document
-        .getElementById("popupOverlay")
-        .classList.add("show");
+let currentIndex = 0;
+
+function getNextTask() {
+  return tasks.find(t => !t.done);
 }
 
-function closePopup(){
-    document
-        .getElementById("popupOverlay")
-        .classList.remove("show");
+function renderTask() {
+  const task = getNextTask();
+
+  const titleEl = document.getElementById("taskTitle");
+  const metaEl = document.querySelector(".card.next .muted");
+
+  if (!task) {
+    titleEl.textContent = "No more tasks 🎉";
+    metaEl.textContent = "You're all caught up";
+
+    document.querySelector(".primary").disabled = true;
+    document.querySelector(".primary").style.opacity = 0.5;
+
+    return;
+  }
+
+  titleEl.textContent = task.title;
+  metaEl.textContent = `Due in ${task.due} • ${task.time} min • Importance ${task.importance}`;
 }
 
-function complete(){
+function updateStats() {
+  const doneCount = tasks.filter(t => t.done).length;
+  const total = tasks.length;
 
-    if(!completed){
-        completed = true;
+  document.getElementById("done").textContent = doneCount;
 
-        document.getElementById("taskTitle").textContent = "All Tasks Complete!";
-        document.getElementById("done").textContent = "6";
-        document.getElementById("fill").style.width = "100%";
-    }
+  const percent = (doneCount / total) * 100;
+  document.getElementById("fill").style.width = percent + "%";
 
-    showPopup();
+  const next = getNextTask();
+  document.querySelectorAll(".metric")[3].innerHTML = next
+    ? `<b>${next.due}</b>Next Due`
+    : `<b>—</b>Next Due`;
 }
+
+function complete() {
+  const task = getNextTask();
+  if (!task) return;
+
+  task.done = true;
+
+  // light feedback animation
+  const card = document.querySelector(".card.next");
+  card.style.transform = "scale(0.97)";
+  setTimeout(() => (card.style.transform = "scale(1)"), 120);
+
+  renderTask();
+  updateStats();
+}
+
+/* Mini interactions */
+document.querySelectorAll(".mini").forEach(el => {
+  el.onclick = () => {
+    const label = el.querySelector("h3").textContent;
+    showPopup(`${label} settings would open in the full app.`);
+  };
+});
+
+/* Popup stays ONLY for promos, not task flow */
+function showPopup(message) {
+  const popup = document.getElementById("popupOverlay");
+
+  if (message) {
+    popup.querySelector("h2").textContent = "NextTask";
+    popup.querySelector("p").textContent = message;
+  }
+
+  popup.classList.add("show");
+}
+
+function closePopup() {
+  document.getElementById("popupOverlay").classList.remove("show");
+}
+
+/* init */
+renderTask();
+updateStats();
 </script>
 </body>
 </html>
